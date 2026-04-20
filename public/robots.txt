@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.hamiltonmosque.com
+
+# Sitemaps
+Sitemap: https://www.hamiltonmosque.com/sitemap.xml
