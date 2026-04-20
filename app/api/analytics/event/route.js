@@ -12,6 +12,11 @@ function getAgeRange(age) {
   return '35+';
 }
 
+function toValidAge(value) {
+  const age = Number(value);
+  return Number.isFinite(age) && age >= 0 ? age : null;
+}
+
 export async function GET(request) {
   try {
     await connectDB();
@@ -51,7 +56,8 @@ export async function GET(request) {
       Unknown: 0,
     };
     registrations.forEach((reg) => {
-      ageDistribution[getAgeRange(Number(reg.age))] += 1;
+      const age = toValidAge(reg.age);
+      ageDistribution[getAgeRange(age)] += 1;
     });
 
     const statusDistribution = {
@@ -73,10 +79,12 @@ export async function GET(request) {
 
     const timeline = Object.entries(timelineMap).map(([date, count]) => ({ date, count }));
 
-    const averageAge = registrations.length
-      ? Number(
-          (registrations.reduce((sum, reg) => sum + reg.age, 0) / registrations.length).toFixed(1)
-        )
+    const validAges = registrations
+      .map((reg) => toValidAge(reg.age))
+      .filter((age) => age !== null);
+
+    const averageAge = validAges.length
+      ? Number((validAges.reduce((sum, age) => sum + age, 0) / validAges.length).toFixed(1))
       : 0;
 
     return NextResponse.json({

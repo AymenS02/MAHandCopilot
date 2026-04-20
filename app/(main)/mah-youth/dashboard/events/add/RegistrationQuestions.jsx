@@ -15,8 +15,18 @@ const QUESTION_TYPES = [
   { value: 'checkbox', label: 'Multiple choice' },
 ];
 
+let fallbackIdCounter = 0;
+
+function generateId() {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+  fallbackIdCounter += 1;
+  return `q-${Date.now()}-${fallbackIdCounter}`;
+}
+
 function createQuestion() {
-  const id = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+  const id = generateId();
   return {
     id,
     text: '',
@@ -54,7 +64,7 @@ const RegistrationQuestions = forwardRef(function RegistrationQuestions(_, ref) 
               ...q,
               options: [
                 ...(q.options || []),
-                { id: `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`, text: '' },
+                { id: generateId(), text: '' },
               ],
             }
           : q
@@ -203,4 +213,3 @@ const RegistrationQuestions = forwardRef(function RegistrationQuestions(_, ref) 
 });
 
 export default RegistrationQuestions;
-

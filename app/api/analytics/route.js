@@ -12,6 +12,11 @@ function getAgeRange(age) {
   return '35+';
 }
 
+function toValidAge(value) {
+  const age = Number(value);
+  return Number.isFinite(age) && age >= 0 ? age : null;
+}
+
 function getLastSixMonthKeys() {
   const now = new Date();
   const keys = [];
@@ -78,12 +83,14 @@ export async function GET(request) {
       );
     }
 
-    if (minAgeNumber !== null) {
-      registrations = registrations.filter((reg) => Number(reg.age) >= minAgeNumber);
-    }
-
-    if (maxAgeNumber !== null) {
-      registrations = registrations.filter((reg) => Number(reg.age) <= maxAgeNumber);
+    if (minAgeNumber !== null || maxAgeNumber !== null) {
+      registrations = registrations.filter((reg) => {
+        const age = toValidAge(reg.age);
+        if (age === null) return false;
+        if (minAgeNumber !== null && age < minAgeNumber) return false;
+        if (maxAgeNumber !== null && age > maxAgeNumber) return false;
+        return true;
+      });
     }
 
     if (status && status !== 'all') {
@@ -147,7 +154,8 @@ export async function GET(request) {
       Unknown: 0,
     };
     registrations.forEach((reg) => {
-      ageDistribution[getAgeRange(Number(reg.age))] += 1;
+      const age = toValidAge(reg.age);
+      ageDistribution[getAgeRange(age)] += 1;
     });
 
     const eventPerformance = events.slice(0, 10).map((event) => {
