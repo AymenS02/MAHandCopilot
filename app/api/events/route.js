@@ -13,8 +13,10 @@ export async function GET(request) {
     const search = searchParams.get('search') || '';
     const category = searchParams.get('category') || '';
     const page = parseInt(searchParams.get('page')) || 1;
-    const limit = parseInt(searchParams.get('limit')) || 10;
-    const skip = (page - 1) * limit;
+    const limitParam = searchParams.get('limit');
+    const parsedLimit = limitParam ? parseInt(limitParam, 10) : null;
+    const limit = parsedLimit ? Math.min(Math.max(parsedLimit, 1), 100) : null;
+    const skip = limit ? (page - 1) * limit : 0;
 
     // Build search query
     let query = {};
@@ -31,11 +33,15 @@ export async function GET(request) {
     }
 
     // Fetch events with pagination and populate createdBy
-    const events = await Event.find(query)
+    const eventsQuery = Event.find(query)
       .populate('createdBy', 'name email')
-      .sort({ date: -1 })
-      .skip(skip)
-      .limit(limit);
+      .sort({ date: -1 });
+
+    if (limit) {
+      eventsQuery.skip(skip).limit(limit);
+    }
+
+    const events = await eventsQuery;
 
     const total = await Event.countDocuments(query);
 
@@ -44,9 +50,9 @@ export async function GET(request) {
       events,
       pagination: {
         page,
-        limit,
+        limit: limit || total,
         total,
-        pages: Math.ceil(total / limit)
+        pages: limit ? Math.ceil(total / limit) : 1
       }
     });
 
@@ -80,6 +86,7 @@ export async function POST(request) {
       speakers,
       price,
       registrationQuestions,
+      registrationDeadline,
       createdBy 
     } = body;
 
@@ -162,6 +169,7 @@ export async function POST(request) {
       speakers: processedSpeakers,
       price: price ? parseFloat(price) : 0,
       registrationQuestions: processedQuestions,
+      registrationDeadline: registrationDeadline ? new Date(registrationDeadline) : null,
       registeredAttendees: 0,
       createdBy: createdBy || null,
     });

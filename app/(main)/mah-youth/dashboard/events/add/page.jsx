@@ -1,7 +1,6 @@
 'use client';
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import Header from '/components/header/Header';
 import RegistrationQuestions from './RegistrationQuestions';
 import { CalendarPlus, ArrowLeft, Save, X, Upload, Image as ImageIcon, Clock, MapPin, Tag, FileText, Users, DollarSign, Link2, Monitor } from 'lucide-react';
 
@@ -109,7 +108,7 @@ export default function AddEvent() {
       if (response.ok) {
         setSuccess('Event added successfully! Redirecting...');
         setTimeout(() => {
-          router.push('/pages/dashboard/events');
+          router.push('/mah-youth/dashboard/events');
         }, 2000);
       } else {
         setError(result.error || 'Failed to add event');
@@ -124,19 +123,17 @@ export default function AddEvent() {
 
   const handleCancel = () => {
     if (confirm('Are you sure you want to cancel? All changes will be lost.')) {
-      router.push('/pages/dashboard/events');
+      router.push('/mah-youth/dashboard/events');
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary via-primary-dark to-primary-light">
-      <Header />
-
       <div className="pt-32 pb-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Page Header */}
         <div className="mb-12">
           <button
-            onClick={() => router.push('/pages/dashboard/events')}
+            onClick={() => router.push('/mah-youth/dashboard/events')}
             className="mb-6 flex items-center gap-2 text-gray-300 hover:text-accent transition-colors duration-300 group"
           >
             <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />

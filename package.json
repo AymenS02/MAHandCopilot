@@ -49,6 +49,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.1",
     "react-hot-toast": "^2.4.1",
+    "recharts": "^2.12.7",
     "resend": "^4.0.1-alpha.0",
     "sanity": "^3.62.2",
     "styled-components": "^6.1.13",

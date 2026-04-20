@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Header from "/components/header/Header";
 import { Users, Calendar, Mail, Phone, Search, Filter, Download, ArrowLeft, Trash2, X, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function RegistrationsPage() {
@@ -11,7 +10,6 @@ export default function RegistrationsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedEvent, setSelectedEvent] = useState('all');
-  const [deleteConfirm, setDeleteConfirm] = useState(null);
   const router = useRouter();
   
   // Advanced filters
@@ -31,7 +29,7 @@ export default function RegistrationsPage() {
   useEffect(() => {
     const userData = localStorage.getItem('user');
     if (!userData) {
-      router.push('/pages/login');
+      router.push('/mah-youth/login');
       return;
     }
     fetchData();
@@ -250,8 +248,6 @@ export default function RegistrationsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary to-primary-light">
-      <Header />
-      
       <div className="pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -260,7 +256,7 @@ export default function RegistrationsPage() {
             <button
               onClick={() => {
                 window.scrollTo(0, 0);
-                router.push('/pages/dashboard');
+                router.push('/mah-youth/dashboard');
               }}
               className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-300 mb-6 group"
             >
@@ -778,7 +774,7 @@ export default function RegistrationsPage() {
                 Close
               </button>
               <button
-                onClick={(e) => {
+                onClick={() => {
                   handleDelete(selectedUser._id);
                 }}
                 className="px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-500 transition-colors duration-300 font-medium flex items-center gap-2"

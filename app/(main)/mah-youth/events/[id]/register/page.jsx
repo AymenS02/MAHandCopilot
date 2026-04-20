@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Calendar, MapPin, Clock, User, Mail, Phone, ArrowLeft, CheckCircle, AlertCircle, Infinity } from 'lucide-react'
 import { useRouter, useParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -141,7 +141,7 @@ export default function EventRegistrationPage() {
         <div className="text-center">
           <div className="text-5xl mb-4 opacity-30">📅</div>
           <h2 className="text-2xl font-bold text-black mb-2">Event not found</h2>
-          <button onClick={() => router.push('/events')} className="mt-4 px-5 py-2.5 rounded-2xl bg-black text-white text-sm font-semibold hover:bg-black/80 transition-colors">
+          <button onClick={() => router.push('/mah-youth/events')} className="mt-4 px-5 py-2.5 rounded-2xl bg-black text-white text-sm font-semibold hover:bg-black/80 transition-colors">
             Back to Events
           </button>
         </div>

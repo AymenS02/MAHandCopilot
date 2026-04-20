@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -70,7 +70,7 @@ function EventCard({ event, index }) {
       whileTap={{ scale: 0.98 }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      onClick={() => router.push(`/events/${event._id}`)}
+      onClick={() => router.push(`/mah-youth/events/${event._id}`)}
     >
       {/* ── Image ── */}
       <div className="relative w-full h-48 overflow-hidden bg-black/5">
@@ -182,7 +182,7 @@ function EventCard({ event, index }) {
           }}
           onClick={(e) => {
             e.stopPropagation()
-            if (!full && !isPast) router.push(`/events/${event._id}/register`)
+            if (!full && !isPast) router.push(`/mah-youth/events/${event._id}/register`)
           }}
           whileHover={!full && !isPast ? { scale: 1.03 } : {}}
           whileTap={!full && !isPast ? { scale: 0.97 } : {}}
@@ -356,7 +356,6 @@ export default function EventsPage() {
   const [search, setSearch] = useState('')
   const [activeCategory, setActiveCategory] = useState('all')
   const [activeTime, setActiveTime] = useState('upcoming')
-  const shouldReduceMotion = useReducedMotion()
 
   // ── Fetch events ──
   useEffect(() => {

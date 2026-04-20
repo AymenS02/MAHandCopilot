@@ -1,10 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Header from "/components/header/Header";
 import { 
   BarChart3, Users, Calendar, TrendingUp, Filter, X, ChevronDown,
-  Activity, ArrowLeft, PieChart, UserCheck, Target, Award
+  Activity, ArrowLeft, UserCheck, Target, Award
 } from 'lucide-react';
 import {
   BarChart, Bar, LineChart, Line, PieChart as RePieChart, Pie, Cell,
@@ -37,7 +36,7 @@ export default function Analytics() {
     // Check if user is logged in
     const userData = localStorage.getItem('user');
     if (!userData) {
-      router.push('/pages/login');
+      router.push('/mah-youth/login');
       return;
     }
     
@@ -165,8 +164,6 @@ export default function Analytics() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary via-primary-dark to-primary-light">
-      <Header />
-      
       {/* Analytics Header */}
       <div className="pt-32 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -175,7 +172,7 @@ export default function Analytics() {
               <button
                 onClick={() => {
                   window.scrollTo(0, 0);
-                  router.push('/pages/dashboard');
+                  router.push('/mah-youth/dashboard');
                 }}
                 className="inline-flex items-center gap-2 text-accent hover:text-accent-light transition-colors mb-4"
               >
@@ -591,7 +588,7 @@ export default function Analytics() {
 }
 
 // Event Analytics Detail Component
-function EventAnalyticsDetail({ event, eventAnalytics, loading, onBack, COLORS }) {
+function EventAnalyticsDetail({ eventAnalytics, loading, onBack, COLORS }) {
   if (loading) {
     return (
       <div className="text-center py-12">

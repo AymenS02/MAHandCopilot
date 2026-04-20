@@ -140,7 +140,7 @@ const Page = () => {
             >
               {/* Decorative quote mark */}
               <div className="absolute -top-6 -left-6 lg:-top-8 lg:-left-8 text-black/10 text-6xl lg:text-8xl font-serif">
-                "
+                &quot;
               </div>
 
               <div className="relative bg-black/5 backdrop-blur-sm border border-black/10 rounded-2xl p-6 lg:p-8 shadow-2xl">
@@ -155,8 +155,8 @@ const Page = () => {
                 <div className="h-px bg-gradient-to-r from-transparent via-black/20 to-transparent mb-6" />
 
                 <p className="text-base lg:text-lg xl:text-xl text-black/80 leading-relaxed italic">
-                  "The believers are but brothers, so make settlement between your brothers. And fear
-                  Allah that you may receive mercy."
+                  &quot;The believers are but brothers, so make settlement between your brothers. And fear
+                  Allah that you may receive mercy.&quot;
                 </p>
 
                 {/* Surah reference */}
@@ -190,7 +190,7 @@ const Page = () => {
                 <div className="h-px bg-gradient-to-r from-transparent via-black/20 to-transparent mb-4" />
 
                 <p className="text-sm sm:text-base text-black/80 leading-relaxed italic text-center">
-                  "The believers are but brothers"
+                  &quot;The believers are but brothers&quot;
                 </p>
 
                 <div className="mt-4 inline-flex items-center gap-2 bg-black/10 px-3 py-1.5 rounded-full mx-auto">
