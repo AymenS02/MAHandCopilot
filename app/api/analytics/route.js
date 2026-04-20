@@ -153,8 +153,13 @@ export async function GET(request) {
       '35+': 0,
       Unknown: 0,
     };
-    registrations.forEach((reg) => {
-      const age = toValidAge(reg.age);
+    const registrationsWithAge = registrations.map((reg) => ({
+      ...reg.toObject(),
+      normalizedAge: toValidAge(reg.age),
+    }));
+
+    registrationsWithAge.forEach((reg) => {
+      const age = reg.normalizedAge;
       ageDistribution[getAgeRange(age)] += 1;
     });
 

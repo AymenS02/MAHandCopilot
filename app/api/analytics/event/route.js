@@ -34,6 +34,11 @@ export async function GET(request) {
       return acc;
     }, {});
 
+    const registrationsWithAge = registrations.map((reg) => ({
+      ...reg.toObject(),
+      normalizedAge: toValidAge(reg.age),
+    }));
+
     const ageDistribution = {
       'Under 13': 0,
       '13-17': 0,
@@ -42,8 +47,8 @@ export async function GET(request) {
       '35+': 0,
       Unknown: 0,
     };
-    registrations.forEach((reg) => {
-      const age = toValidAge(reg.age);
+    registrationsWithAge.forEach((reg) => {
+      const age = reg.normalizedAge;
       ageDistribution[getAgeRange(age)] += 1;
     });
 
@@ -66,8 +71,8 @@ export async function GET(request) {
 
     const timeline = Object.entries(timelineMap).map(([date, count]) => ({ date, count }));
 
-    const validAges = registrations
-      .map((reg) => toValidAge(reg.age))
+    const validAges = registrationsWithAge
+      .map((reg) => reg.normalizedAge)
       .filter((age) => age !== null);
 
     const averageAge = validAges.length
