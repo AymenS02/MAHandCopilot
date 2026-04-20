@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Calendar, MapPin, Clock, User, Mail, Phone, ArrowLeft, CheckCircle, AlertCircle, Infinity } from 'lucide-react'
 import { useRouter, useParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   BarChart3, Users, Calendar, TrendingUp, Filter, X, ChevronDown,
-  Activity, ArrowLeft, PieChart, UserCheck, Target, Award
+  Activity, ArrowLeft, UserCheck, Target, Award
 } from 'lucide-react';
 import {
   BarChart, Bar, LineChart, Line, PieChart as RePieChart, Pie, Cell,
@@ -588,7 +588,7 @@ export default function Analytics() {
 }
 
 // Event Analytics Detail Component
-function EventAnalyticsDetail({ event, eventAnalytics, loading, onBack, COLORS }) {
+function EventAnalyticsDetail({ eventAnalytics, loading, onBack, COLORS }) {
   if (loading) {
     return (
       <div className="text-center py-12">

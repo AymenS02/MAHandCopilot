@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -356,7 +356,6 @@ export default function EventsPage() {
   const [search, setSearch] = useState('')
   const [activeCategory, setActiveCategory] = useState('all')
   const [activeTime, setActiveTime] = useState('upcoming')
-  const shouldReduceMotion = useReducedMotion()
 
   // ── Fetch events ──
   useEffect(() => {

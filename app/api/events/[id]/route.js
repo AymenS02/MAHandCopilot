@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '../../../../lib/config/db';
 import Event from '../../../../lib/models/EventModel';
-import Account from '../../../../lib/models/AccountModel';
+import Registration from '../../../../lib/models/RegistrationModel';
 
 // GET - Fetch single event
 export async function GET(request, { params }) {
@@ -230,6 +230,7 @@ export async function DELETE(request, { params }) {
 
     // Delete the event
     await Event.findByIdAndDelete(id);
+    await Registration.deleteMany({ event: id });
 
     console.log('✅ Event deleted successfully:', id);
 

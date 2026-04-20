@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Mail, Phone, Send, MessageCircle, MapPin, Instagram, Check } from 'lucide-react';
+import { Mail, Phone, Send, MapPin, Instagram, Check } from 'lucide-react';
 import Swal from 'sweetalert2';
 
 const twelveHours = 12 * 60 * 60 * 1000;
@@ -153,7 +153,7 @@ const ContactPage = () => {
 
             {/* Subtitle */}
             <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed font-light mb-8">
-              Have questions, suggestions, or want to get involved? We'd love to hear from you.
+              Have questions, suggestions, or want to get involved? We&apos;d love to hear from you.
             </p>
           </div>
 
@@ -179,7 +179,7 @@ const ContactPage = () => {
                     <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
                       <Check className="w-4 h-4 text-white" />
                     </div>
-                    <span className="text-emerald-800 text-sm font-medium">Thank you! Your message has been sent successfully. We'll get back to you soon.</span>
+                    <span className="text-emerald-800 text-sm font-medium">Thank you! Your message has been sent successfully. We&apos;ll get back to you soon.</span>
                   </div>
                 )}
 
@@ -298,7 +298,7 @@ const ContactPage = () => {
                   {submitted && (
                     <div className="text-center py-4 px-6 bg-yPrimary/10 rounded-xl border-2 border-yAccent/30">
                       <p className="text-yPrimary font-medium">
-                        You've already submitted. Please wait 12 hours before submitting again.
+                        You&apos;ve already submitted. Please wait 12 hours before submitting again.
                       </p>
                     </div>
                   )}

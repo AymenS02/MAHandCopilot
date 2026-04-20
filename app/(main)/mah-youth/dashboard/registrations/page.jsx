@@ -10,7 +10,6 @@ export default function RegistrationsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedEvent, setSelectedEvent] = useState('all');
-  const [deleteConfirm, setDeleteConfirm] = useState(null);
   const router = useRouter();
   
   // Advanced filters
@@ -775,7 +774,7 @@ export default function RegistrationsPage() {
                 Close
               </button>
               <button
-                onClick={(e) => {
+                onClick={() => {
                   handleDelete(selectedUser._id);
                 }}
                 className="px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-500 transition-colors duration-300 font-medium flex items-center gap-2"

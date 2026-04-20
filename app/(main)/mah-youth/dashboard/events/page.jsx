@@ -208,8 +208,6 @@ export default function EventsManagement() {
           {filteredEvents.map((event) => {
             const isUpcoming = new Date(event.date) > new Date();
             const isUnlimitedCapacity = event.capacity === 0;
-            const spotsRemaining = isUnlimitedCapacity ? null : event.capacity - (event.registeredAttendees || 0);
-            
             return (
               <div
                 key={event._id}

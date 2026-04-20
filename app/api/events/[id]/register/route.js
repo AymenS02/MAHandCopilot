@@ -135,8 +135,7 @@ export async function POST(request, { params }) {
     });
 
     // Update event's registered attendees count
-    event.registeredAttendees += 1;
-    await event.save();
+    await Event.updateRegistrationCount(id);
 
     // TODO: Send confirmation email here
     // await sendConfirmationEmail(email, event, registration);
@@ -160,6 +159,14 @@ export async function POST(request, { params }) {
 
   } catch (error) {
     console.error("❌ Registration error:", error);
+
+    if (error?.code === 11000) {
+      return Response.json(
+        { error: "This email has already been registered for this event" },
+        { status: 409 }
+      );
+    }
+
     return Response.json(
       { error: "Failed to process registration" },
       { status: 500 }
