@@ -6,6 +6,12 @@ import { getAgeRange, toValidAge } from '../../../lib/utils/analyticsUtils';
 
 const EVENT_TITLE_TRUNCATE_LENGTH = 20;
 
+function truncateEventTitle(title) {
+  return title.length > EVENT_TITLE_TRUNCATE_LENGTH
+    ? `${title.slice(0, EVENT_TITLE_TRUNCATE_LENGTH)}...`
+    : title;
+}
+
 function getLastSixMonthKeys() {
   const now = new Date();
   const keys = [];
@@ -51,10 +57,15 @@ export async function GET(request) {
       );
     }
 
-    const minAgeNumber = minAge ? Number(minAge) : null;
-    const maxAgeNumber = maxAge ? Number(maxAge) : null;
+    const hasMinAgeFilter = minAge !== null && minAge !== '';
+    const hasMaxAgeFilter = maxAge !== null && maxAge !== '';
+    const minAgeNumber = hasMinAgeFilter ? Number(minAge) : null;
+    const maxAgeNumber = hasMaxAgeFilter ? Number(maxAge) : null;
 
-    if ((minAge && Number.isNaN(minAgeNumber)) || (maxAge && Number.isNaN(maxAgeNumber))) {
+    if (
+      (hasMinAgeFilter && !Number.isFinite(minAgeNumber)) ||
+      (hasMaxAgeFilter && !Number.isFinite(maxAgeNumber))
+    ) {
       return NextResponse.json(
         { error: 'Age filters must be valid numbers' },
         { status: 400 }
@@ -154,9 +165,7 @@ export async function GET(request) {
           : 0;
 
         return {
-        title: event.title.length > EVENT_TITLE_TRUNCATE_LENGTH
-          ? `${event.title.slice(0, EVENT_TITLE_TRUNCATE_LENGTH)}...`
-          : event.title,
+        title: truncateEventTitle(event.title),
           capacity: event.capacity || 0,
           registrations: registrationsCount,
           utilizationPercentage,
