@@ -40,7 +40,7 @@ function EventCard({ event, index }) {
       whileTap={{ scale: 0.98 }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      onClick={() => router.push(`/events/${event._id}`)}
+      onClick={() => router.push(`/mah-youth/events/${event._id}`)}
     >
       {/* Image area */}
       <div className="relative w-full h-48 sm:h-52 overflow-hidden bg-black/5">

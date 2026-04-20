@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
-import Header from '/components/header/Header';
 import {
   Users, ArrowLeft, Search, Mail, Phone, User, Calendar,
   CheckCircle, Filter, ChevronDown, ChevronUp, UserCheck, Clock
@@ -27,7 +26,7 @@ export default function EventRegistrationsPage({ params }) {
   useEffect(() => {
     const userData = localStorage.getItem('user');
     if (!userData) {
-      router.push('/pages/login');
+      router.push('/mah-youth/login');
       return;
     }
     fetchData();
@@ -172,7 +171,6 @@ export default function EventRegistrationsPage({ params }) {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-primary via-primary-dark to-primary-light">
-        <Header />
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
             <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
@@ -185,13 +183,11 @@ export default function EventRegistrationsPage({ params }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary via-primary-dark to-primary-light">
-      <Header />
-
       <div className="pt-32 pb-20 min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-10">
           <button
-            onClick={() => router.push('/pages/dashboard/events')}
+            onClick={() => router.push('/mah-youth/dashboard/events')}
             className="mb-6 flex items-center gap-2 text-gray-300 hover:text-accent transition-colors duration-300 group"
           >
             <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />

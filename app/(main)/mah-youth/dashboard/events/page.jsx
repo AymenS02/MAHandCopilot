@@ -13,7 +13,7 @@ export default function EventsManagement() {
   useEffect(() => {
     const userData = localStorage.getItem('user');
     if (!userData) {
-      router.push('/pages/login');
+      router.push('/mah-youth/login');
       return;
     }
 
@@ -95,7 +95,7 @@ export default function EventsManagement() {
         {/* Page Header */}
         <div className="mb-12">
           <button
-            onClick={() => router.push('/pages/dashboard')}
+            onClick={() => router.push('/mah-youth/dashboard')}
             className="mb-6 flex items-center gap-2 text-gray-300 hover:text-accent transition-colors duration-300 group"
           >
             <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
@@ -114,7 +114,7 @@ export default function EventsManagement() {
             </div>
 
             <button
-              onClick={() => router.push('/pages/dashboard/events/add')}
+              onClick={() => router.push('/mah-youth/dashboard/events/add')}
               className="bg-gradient-to-r from-accent to-accent-light text-white px-8 py-4 rounded-xl hover:shadow-lg hover:shadow-accent/50 transition-all duration-300 font-bold flex items-center gap-2 justify-center group transform hover:scale-105"
             >
               <Plus className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" />
@@ -344,7 +344,7 @@ export default function EventsManagement() {
                   {/* Action Buttons */}
                   <div className="flex gap-3">
                     <button
-                      onClick={() => router.push(`/pages/dashboard/events/${event._id}/registrations`)}
+                      onClick={() => router.push(`/mah-youth/dashboard/events/${event._id}/registration`)}
                       className="flex-1 bg-accent/10 border border-accent/50 text-accent py-3 px-4 rounded-xl hover:bg-accent hover:text-white transition-all duration-300 font-bold text-sm flex items-center justify-center gap-2 group/btn"
                     >
                       <ClipboardList className="w-4 h-4 transition-transform duration-300 group-hover/btn:scale-110" />
@@ -377,7 +377,7 @@ export default function EventsManagement() {
                 : 'Get started by adding your first event.'}
             </p>
             <button
-              onClick={() => router.push('/pages/dashboard/events/add')}
+              onClick={() => router.push('/mah-youth/dashboard/events/add')}
               className="bg-gradient-to-r from-accent to-accent-light text-white px-8 py-4 rounded-xl hover:shadow-lg hover:shadow-accent/50 transition-all duration-300 font-bold inline-flex items-center gap-2"
             >
               <Plus className="w-5 h-5" />
