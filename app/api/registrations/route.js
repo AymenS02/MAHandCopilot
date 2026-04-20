@@ -19,6 +19,13 @@ export async function GET(request) {
       .sort({ registeredAt: -1 });
 
     const safeRegistrations = registrations.filter((reg) => reg.event);
+    const orphanRegistrationIds = registrations
+      .filter((reg) => !reg.event)
+      .map((reg) => reg._id);
+
+    if (orphanRegistrationIds.length > 0) {
+      await Registration.deleteMany({ _id: { $in: orphanRegistrationIds } });
+    }
 
     return NextResponse.json({
       success: true,
@@ -33,4 +40,3 @@ export async function GET(request) {
     );
   }
 }
-

@@ -11,7 +11,6 @@ export async function GET() {
     return NextResponse.json(programs);
   } catch (error) {
     console.error('❌ Get programs error:', error);
-    return NextResponse.json([], { status: 200 });
+    return NextResponse.json([], { status: 500 });
   }
 }
-

@@ -88,7 +88,9 @@ export async function GET(request) {
     const totalCapacity = events.reduce((sum, event) => sum + (event.capacity || 0), 0);
     const totalRegistrations = registrations.length;
     const totalEvents = events.length;
-    const averageAttendance = totalEvents ? Number((totalRegistrations / totalEvents).toFixed(1)) : 0;
+    const averageRegistrationsPerEvent = totalEvents
+      ? Number((totalRegistrations / totalEvents).toFixed(1))
+      : 0;
     const capacityUtilization = totalCapacity
       ? Number(((totalRegistrations / totalCapacity) * 100).toFixed(1))
       : 0;
@@ -162,7 +164,7 @@ export async function GET(request) {
         summary: {
           totalEvents,
           totalRegistrations,
-          averageAttendance,
+          averageAttendance: averageRegistrationsPerEvent,
           totalCapacity,
           capacityUtilization,
         },
@@ -185,4 +187,3 @@ export async function GET(request) {
     );
   }
 }
-
