@@ -2,20 +2,9 @@ import { NextResponse } from 'next/server';
 import { connectDB } from '../../../lib/config/db';
 import Event from '../../../lib/models/EventModel';
 import Registration from '../../../lib/models/RegistrationModel';
+import { getAgeRange, toValidAge } from '../../../lib/utils/analyticsUtils';
 
-function getAgeRange(age) {
-  if (!Number.isFinite(age) || age < 0) return 'Unknown';
-  if (age < 13) return 'Under 13';
-  if (age <= 17) return '13-17';
-  if (age <= 24) return '18-24';
-  if (age <= 34) return '25-34';
-  return '35+';
-}
-
-function toValidAge(value) {
-  const age = Number(value);
-  return Number.isFinite(age) && age >= 0 ? age : null;
-}
+const EVENT_TITLE_TRUNCATE_LENGTH = 20;
 
 function getLastSixMonthKeys() {
   const now = new Date();
@@ -159,16 +148,18 @@ export async function GET(request) {
     });
 
     const eventPerformance = events.slice(0, 10).map((event) => {
-      const registrationsCount = registrationsByEvent[String(event._id)] || 0;
-      const utilizationPercentage = event.capacity > 0
-        ? Number(((registrationsCount / event.capacity) * 100).toFixed(1))
-        : 0;
+        const registrationsCount = registrationsByEvent[String(event._id)] || 0;
+        const utilizationPercentage = event.capacity > 0
+          ? Number(((registrationsCount / event.capacity) * 100).toFixed(1))
+          : 0;
 
-      return {
-        title: event.title.length > 20 ? `${event.title.slice(0, 20)}...` : event.title,
-        capacity: event.capacity || 0,
-        registrations: registrationsCount,
-        utilizationPercentage,
+        return {
+        title: event.title.length > EVENT_TITLE_TRUNCATE_LENGTH
+          ? `${event.title.slice(0, EVENT_TITLE_TRUNCATE_LENGTH)}...`
+          : event.title,
+          capacity: event.capacity || 0,
+          registrations: registrationsCount,
+          utilizationPercentage,
       };
     });
 

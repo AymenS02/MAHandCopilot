@@ -160,6 +160,7 @@ export async function POST(request, { params }) {
   } catch (error) {
     console.error("❌ Registration error:", error);
 
+    // Mongo duplicate-key error (event + email unique index).
     if (error?.code === 11000) {
       return Response.json(
         { error: "This email has already been registered for this event" },

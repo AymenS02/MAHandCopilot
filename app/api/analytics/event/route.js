@@ -2,20 +2,7 @@ import { NextResponse } from 'next/server';
 import { connectDB } from '../../../../lib/config/db';
 import Event from '../../../../lib/models/EventModel';
 import Registration from '../../../../lib/models/RegistrationModel';
-
-function getAgeRange(age) {
-  if (!Number.isFinite(age) || age < 0) return 'Unknown';
-  if (age < 13) return 'Under 13';
-  if (age <= 17) return '13-17';
-  if (age <= 24) return '18-24';
-  if (age <= 34) return '25-34';
-  return '35+';
-}
-
-function toValidAge(value) {
-  const age = Number(value);
-  return Number.isFinite(age) && age >= 0 ? age : null;
-}
+import { getAgeRange, toValidAge } from '../../../../lib/utils/analyticsUtils';
 
 export async function GET(request) {
   try {
