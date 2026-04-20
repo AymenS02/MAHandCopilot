@@ -4,6 +4,7 @@ import Event from '../../../../lib/models/EventModel';
 import Registration from '../../../../lib/models/RegistrationModel';
 
 function getAgeRange(age) {
+  if (!Number.isFinite(age) || age < 0) return 'Unknown';
   if (age < 13) return 'Under 13';
   if (age <= 17) return '13-17';
   if (age <= 24) return '18-24';
@@ -47,9 +48,10 @@ export async function GET(request) {
       '18-24': 0,
       '25-34': 0,
       '35+': 0,
+      Unknown: 0,
     };
     registrations.forEach((reg) => {
-      ageDistribution[getAgeRange(reg.age)] += 1;
+      ageDistribution[getAgeRange(Number(reg.age))] += 1;
     });
 
     const statusDistribution = {
@@ -120,4 +122,3 @@ export async function GET(request) {
     );
   }
 }
-

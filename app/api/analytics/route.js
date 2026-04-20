@@ -4,6 +4,7 @@ import Event from '../../../lib/models/EventModel';
 import Registration from '../../../lib/models/RegistrationModel';
 
 function getAgeRange(age) {
+  if (!Number.isFinite(age) || age < 0) return 'Unknown';
   if (age < 13) return 'Under 13';
   if (age <= 17) return '13-17';
   if (age <= 24) return '18-24';
@@ -56,12 +57,33 @@ export async function GET(request) {
       );
     }
 
-    if (minAge) {
-      registrations = registrations.filter((reg) => reg.age >= Number(minAge));
+    const minAgeNumber = minAge ? Number(minAge) : null;
+    const maxAgeNumber = maxAge ? Number(maxAge) : null;
+
+    if ((minAge && Number.isNaN(minAgeNumber)) || (maxAge && Number.isNaN(maxAgeNumber))) {
+      return NextResponse.json(
+        { error: 'Age filters must be valid numbers' },
+        { status: 400 }
+      );
     }
 
-    if (maxAge) {
-      registrations = registrations.filter((reg) => reg.age <= Number(maxAge));
+    if (
+      minAgeNumber !== null &&
+      maxAgeNumber !== null &&
+      minAgeNumber > maxAgeNumber
+    ) {
+      return NextResponse.json(
+        { error: 'minAge cannot be greater than maxAge' },
+        { status: 400 }
+      );
+    }
+
+    if (minAgeNumber !== null) {
+      registrations = registrations.filter((reg) => Number(reg.age) >= minAgeNumber);
+    }
+
+    if (maxAgeNumber !== null) {
+      registrations = registrations.filter((reg) => Number(reg.age) <= maxAgeNumber);
     }
 
     if (status && status !== 'all') {
@@ -122,9 +144,10 @@ export async function GET(request) {
       '18-24': 0,
       '25-34': 0,
       '35+': 0,
+      Unknown: 0,
     };
     registrations.forEach((reg) => {
-      ageDistribution[getAgeRange(reg.age)] += 1;
+      ageDistribution[getAgeRange(Number(reg.age))] += 1;
     });
 
     const eventPerformance = events.slice(0, 10).map((event) => {

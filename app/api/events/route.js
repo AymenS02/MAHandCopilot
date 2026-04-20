@@ -14,7 +14,8 @@ export async function GET(request) {
     const category = searchParams.get('category') || '';
     const page = parseInt(searchParams.get('page')) || 1;
     const limitParam = searchParams.get('limit');
-    const limit = limitParam ? parseInt(limitParam) : null;
+    const parsedLimit = limitParam ? parseInt(limitParam, 10) : null;
+    const limit = parsedLimit ? Math.min(Math.max(parsedLimit, 1), 100) : null;
     const skip = limit ? (page - 1) * limit : 0;
 
     // Build search query
