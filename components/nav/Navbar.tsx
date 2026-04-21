@@ -294,9 +294,18 @@ export const Navbar = ({ className, transparent = false }: NavbarProps) => {
 };
 
 export const NavLinkComponent = ({ option }: { option: MenuOption }) => {
+  const isMahYouth = option.name === "MAH Youth";
+
   return option.type === "link" ? (
     <NavigationMenuItem key={option.name}>
-      <NavigationMenuLink href={option.href} className="text-white">
+      <NavigationMenuLink
+        href={option.href}
+        className={cn(
+          "text-white",
+          isMahYouth &&
+            "bg-yPrimary text-white border-2 border-yAccent px-4 py-2 rounded-xl font-semibold shadow-md hover:bg-yAccent hover:text-yPrimary transition"
+        )}
+      >
         {option.name}
       </NavigationMenuLink>
     </NavigationMenuItem>
