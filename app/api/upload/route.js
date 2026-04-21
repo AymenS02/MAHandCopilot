@@ -12,35 +12,61 @@ const getCloudinaryConfig = () => {
   const cloudinaryUrl = cleanEnvValue(process.env.CLOUDINARY_URL);
 
   if (cloudName && apiKey && apiSecret) {
-    return { cloud_name: cloudName, api_key: apiKey, api_secret: apiSecret };
+    return {
+      config: { cloud_name: cloudName, api_key: apiKey, api_secret: apiSecret },
+      error: null,
+    };
   }
 
   if (cloudinaryUrl) {
     try {
       const parsed = new URL(cloudinaryUrl);
+      const parsedCloudName = cleanEnvValue(parsed.hostname);
+      const parsedApiKey = cleanEnvValue(decodeURIComponent(parsed.username));
+      const parsedApiSecret = cleanEnvValue(decodeURIComponent(parsed.password));
+
+      if (!parsedCloudName || !parsedApiKey || !parsedApiSecret) {
+        return {
+          config: null,
+          error:
+            'Invalid CLOUDINARY_URL credentials. Ensure API key, API secret, and cloud name are all present',
+        };
+      }
+
       return {
-        cloud_name: parsed.hostname,
-        api_key: decodeURIComponent(parsed.username),
-        api_secret: decodeURIComponent(parsed.password),
+        config: {
+          cloud_name: parsedCloudName,
+          api_key: parsedApiKey,
+          api_secret: parsedApiSecret,
+        },
+        error: null,
       };
     } catch (error) {
       console.error('Invalid CLOUDINARY_URL format:', error);
-    }
+        return {
+          config: null,
+          error: 'Invalid CLOUDINARY_URL format. Use cloudinary://<API_KEY>:<API_SECRET>@<cloud_name>',
+        };
+      }
   }
 
-  return null;
+  return {
+    config: null,
+    error:
+      'Cloudinary credentials are not configured. Set CLOUDINARY_CLOUD_NAME/CLOUDINARY_API_KEY/CLOUDINARY_API_SECRET or CLOUDINARY_URL',
+  };
 };
+
+const cloudinarySetup = getCloudinaryConfig();
+if (cloudinarySetup.config) {
+  cloudinary.config(cloudinarySetup.config);
+}
 
 export async function POST(req) {
   try {
-    const config = getCloudinaryConfig();
-    if (!config?.cloud_name || !config?.api_key || !config?.api_secret) {
-      return new Response(JSON.stringify({ error: 'Cloudinary credentials are not configured' }), {
-        status: 500,
-      });
+    if (!cloudinarySetup.config) {
+      return new Response(JSON.stringify({ error: cloudinarySetup.error }), { status: 503 });
     }
-
-    cloudinary.config(config);
 
     const data = await req.formData();
     const file = data.get('file');
